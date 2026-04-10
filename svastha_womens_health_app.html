@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Svastha — Women's Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#FAF8F4;
+  --bg2:#F3EFE8;
+  --bg3:#EAF4F0;
+  --bg4:#EAF1F8;
+  --bg5:#F5EAF0;
+  --white:#FFFFFF;
+  --ink:#2A2522;
+  --ink2:#5C5650;
+  --ink3:#9A948C;
+  --rose:#C0726A;
+  --teal:#4E9B87;
+  --blue:#5588A8;
+  --plum:#7A6895;
+  --amber:#C08A4A;
+  --border:rgba(42,37,34,0.10);
+  --border2:rgba(42,37,34,0.18);
+  --r:18px;
+  --r2:12px;
+  --r3:24px;
+}
+body{font-family:'Nunito',sans-serif;background:#E8E3DC;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:16px 12px 40px;}
+
+/* ── NAV TABS ── */
+.tab-nav{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:440px;width:100%;margin-bottom:14px;}
+.tab{padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:var(--white);font-size:10.5px;font-family:'Nunito',sans-serif;color:var(--ink2);cursor:pointer;transition:all .18s;font-weight:500;}
+.tab:hover{background:var(--bg2);}
+.tab.on{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+/* ── PHONE SHELL ── */
+.phone{width:100%;max-width:390px;background:var(--bg);border-radius:38px;border:2px solid rgba(42,37,34,0.13);overflow:hidden;min-height:660px;display:none;flex-direction:column;position:relative;}
+.phone.on{display:flex;}
+.sbar{display:flex;justify-content:space-between;padding:13px 22px 6px;font-size:11px;color:var(--ink3);font-weight:600;}
+.scr{flex:1;display:flex;flex-direction:column;padding:18px 20px 20px;overflow-y:auto;}
+.scr::-webkit-scrollbar{width:0;}
+
+/* ── TYPOGRAPHY ── */
+.serif{font-family:'Playfair Display',serif;}
+.h1{font-size:30px;font-weight:400;color:var(--ink);line-height:1.15;}
+.h2{font-size:20px;font-weight:500;color:var(--ink);line-height:1.25;}
+.h3{font-size:15px;font-weight:600;color:var(--ink);}
+.sub{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:4px;}
+.micro{font-size:11px;color:var(--ink3);}
+
+/* ── BUTTONS ── */
+.btn{width:100%;padding:15px;border-radius:var(--r);background:var(--ink);color:var(--bg);border:none;font-family:'Nunito',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;letter-spacing:.01em;}
+.btn:hover{opacity:.83;}
+.btn.out{background:transparent;color:var(--ink);border:1.5px solid var(--border2);}
+.btn.sm{padding:10px;font-size:13px;border-radius:var(--r2);}
+.btn.teal{background:var(--teal);color:#fff;}
+.btn.rose{background:var(--rose);color:#fff;}
+.btn.plum{background:var(--plum);color:#fff;}
+.spacer{flex:1;}
+.mt4{margin-top:4px;} .mt8{margin-top:8px;} .mt12{margin-top:12px;} .mt16{margin-top:16px;} .mt20{margin-top:20px;} .mt24{margin-top:24px;}
+.mb8{margin-bottom:8px;} .mb12{margin-bottom:12px;} .mb16{margin-bottom:16px;}
+
+/* ── BACK ── */
+.back{background:none;border:none;font-family:'Nunito',sans-serif;font-size:13px;color:var(--ink2);cursor:pointer;display:flex;align-items:center;gap:5px;padding:0;margin-bottom:14px;}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:14px 16px;}
+.card.sky{background:var(--bg4);}
+.card.sage{background:var(--bg3);}
+.card.blush{background:var(--bg5);}
+.card.warm{background:var(--bg2);}
+
+/* ── CONDITION CARDS ── */
+.cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;}
+.cc{background:var(--white);border-radius:var(--r);border:2px solid var(--border);padding:16px 12px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:5px;}
+.cc:hover{border-color:var(--border2);}
+.cc.sel{border-color:var(--ink);background:var(--bg2);}
+.cc-icon{font-size:24px;}
+.cc-name{font-size:13px;font-weight:600;color:var(--ink);}
+.cc-desc{font-size:11px;color:var(--ink3);line-height:1.4;}
+
+/* ── ROLE CARDS ── */
+.rc{background:var(--white);border-radius:var(--r);border:2px solid var(--border);padding:14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .2s;margin-bottom:9px;}
+.rc:hover{border-color:var(--border2);}
+.rc.sel{border-color:var(--ink);background:var(--bg2);}
+.rc-ico{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.rc-name{font-size:14px;font-weight:600;color:var(--ink);}
+.rc-sub{font-size:11px;color:var(--ink3);}
+
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:12px;color:var(--ink);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:500;transition:all .16s;}
+.chip:hover{background:var(--bg2);}
+.chip.sel{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+/* ── SETUP SECTION ── */
+.setup-sec{margin-bottom:16px;}
+.setup-lbl{font-size:11.5px;font-weight:600;color:var(--ink2);margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* ── SCORE RING ── */
+.score-wrap{display:flex;align-items:center;gap:14px;background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:16px;}
+.ring-svg{width:64px;height:64px;flex-shrink:0;}
+.score-label p{font-size:13px;font-weight:600;color:var(--ink);}
+.score-label small{font-size:11px;color:var(--ink3);}
+.focus-chip{display:inline-block;background:var(--bg4);color:var(--blue);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:600;margin-top:5px;}
+
+/* ── QUOTE ── */
+.quote-bar{background:var(--bg5);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;}
+.quote-bar p{font-family:'Playfair Display',serif;font-size:15px;color:var(--rose);font-style:italic;line-height:1.5;}
+.quote-bar small{font-size:10.5px;color:var(--ink3);display:block;margin-top:3px;}
+
+/* ── DASH GRID ── */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px;}
+.dc{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:13px 12px;cursor:pointer;transition:background .18s;}
+.dc:hover{background:var(--bg2);}
+.dc-ico{font-size:20px;margin-bottom:4px;}
+.dc-ttl{font-size:12px;font-weight:600;color:var(--ink);}
+.dc-sub{font-size:11px;color:var(--ink3);margin-top:2px;}
+
+/* ── CHECKIN ITEM ── */
+.ci{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:13px 14px;margin-bottom:9px;}
+.ci-lbl{font-size:12px;color:var(--ink2);margin-bottom:7px;font-weight:500;}
+.srow{display:flex;align-items:center;gap:8px;}
+.srow input[type=range]{flex:1;accent-color:var(--teal);}
+.sval{font-size:12px;font-weight:600;color:var(--ink);min-width:14px;}
+.stxt{font-size:10.5px;color:var(--ink3);}
+
+/* ── INSIGHT ── */
+.insight-card{background:var(--bg3);border-radius:var(--r);padding:16px;margin-bottom:12px;}
+.insight-card p{font-size:14px;color:#1F3A30;line-height:1.65;}
+.insight-card .src{font-size:11px;color:var(--teal);margin-top:6px;}
+.expert-tip{background:var(--bg4);border-radius:var(--r2);padding:12px;margin-bottom:10px;}
+.expert-tip .etag{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.expert-tip p{font-size:12.5px;color:var(--ink2);line-height:1.5;}
+
+/* ── RECO ── */
+.reco-sec{margin-bottom:14px;}
+.reco-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.reco-hdr span:first-child{font-size:20px;}
+.reco-hdr span:last-child{font-size:13px;font-weight:600;color:var(--ink);}
+.reco-item{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:10px 12px;margin-bottom:6px;font-size:13px;color:var(--ink);display:flex;align-items:center;gap:9px;}
+.rdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* ── NOTES ── */
+.note-card{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:12px;margin-bottom:8px;}
+.note-card p{font-size:13px;color:var(--ink);line-height:1.5;}
+.note-card small{font-size:11px;color:var(--ink3);margin-top:4px;display:block;}
+.ntarea{width:100%;border:1.5px solid var(--border);border-radius:var(--r2);padding:11px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--ink);background:var(--white);resize:none;outline:none;height:80px;}
+.ntarea:focus{border-color:var(--border2);}
+.inp{width:100%;padding:11px 13px;border-radius:var(--r2);border:1.5px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;color:var(--ink);outline:none;}
+.inp:focus{border-color:var(--border2);}
+
+/* ── MED CARDS ── */
+.med-row{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.med-ico{font-size:22px;}
+.med-info{flex:1;}
+.med-info p{font-size:13px;font-weight:600;color:var(--ink);}
+.med-info small{font-size:11px;color:var(--ink3);}
+.badge{font-size:11px;padding:4px 10px;border-radius:8px;font-weight:600;}
+.tk{background:#E4F2EC;color:#205C3A;}
+.ms{background:#FAE8E6;color:#8B3022;}
+
+/* ── REPORTS ── */
+.rep-row{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.fic{width:38px;height:38px;background:var(--bg4);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.fi-info p{font-size:13px;font-weight:600;color:var(--ink);}
+.fi-info small{font-size:11px;color:var(--ink3);}
+
+/* ── FAQ ── */
+.faq-item{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:13px;margin-bottom:8px;cursor:pointer;}
+.faq-q{font-size:13px;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.faq-a{font-size:12.5px;color:var(--ink2);line-height:1.6;margin-top:8px;display:none;}
+.faq-item.open .faq-a{display:block;}
+.faq-item.open .faq-arr{transform:rotate(45deg);}
+.faq-arr{transition:transform .2s;color:var(--ink3);flex-shrink:0;}
+
+/* ── EXPERT HUB ── */
+.expert-section{margin-bottom:14px;}
+.expert-section .es-ttl{font-size:12px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.ew-card{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:12px;margin-bottom:8px;}
+.ew-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:5px;}
+.ew-tag.tip{background:#E4F2EC;color:#205C3A;}
+.ew-tag.dos{background:#E4EDF5;color:#1E4A6A;}
+.ew-tag.obs{background:#F5EAE4;color:#7A3020;}
+.ew-card p{font-size:13px;color:var(--ink);line-height:1.55;}
+.ew-card .cond-lbl{font-size:11px;color:var(--ink3);margin-top:5px;}
+
+/* ── DOCTOR PORTAL ── */
+.dr-login{background:var(--bg4);border-radius:var(--r);padding:20px;margin-bottom:14px;text-align:center;}
+.dr-login .ico{font-size:36px;margin-bottom:8px;}
+.dr-dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px;}
+.dr-dc{background:var(--white);border-radius:var(--r2);border:1px solid var(--border);padding:14px;cursor:pointer;transition:background .18s;text-align:center;}
+.dr-dc:hover{background:var(--bg4);}
+.dr-dc .di{font-size:22px;margin-bottom:5px;}
+.dr-dc .dn{font-size:12px;font-weight:600;color:var(--ink);}
+.dr-form-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:16px;margin-bottom:10px;}
+.dr-form-card .df-ttl{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:12px;}
+.sel-inp{width:100%;padding:10px 12px;border-radius:var(--r2);border:1.5px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;color:var(--ink);outline:none;margin-bottom:8px;}
+
+/* ── TREND ── */
+.trend-card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:10px;}
+.bars{display:flex;align-items:flex-end;gap:6px;height:52px;margin-top:10px;}
+.bar{flex:1;border-radius:5px 5px 0 0;}
+
+/* ── DOCTOR PROMPT ── */
+.dr-prompt{background:var(--bg5);border-radius:var(--r);padding:14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;}
+.dr-prompt .dpi{font-size:20px;flex-shrink:0;margin-top:1px;}
+.dr-prompt .dpt p{font-size:13px;color:#4A2040;font-weight:600;line-height:1.4;}
+.dr-prompt .dpt small{font-size:11.5px;color:var(--plum);margin-top:3px;display:block;}
+
+/* ── COND BADGE ── */
+.cond-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--bg4);color:var(--blue);margin-bottom:12px;}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{font-size:12px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 8px;}
+
+/* ── CHILD PROFILE BOX ── */
+.cpb{background:var(--bg5);border-radius:var(--r2);padding:12px;margin-top:6px;display:none;}
+.cpb.vis{display:block;}
+.cpb p{font-size:12px;color:var(--plum);margin-bottom:6px;font-weight:500;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="tab-nav">
+  <button class="tab on" onclick="go('welcome')">Welcome</button>
+  <button class="tab" onclick="go('condition')">Condition</button>
+  <button class="tab" onclick="go('role')">Role</button>
+  <button class="tab" onclick="go('setup')">Setup</button>
+  <button class="tab" onclick="go('dashboard')">Dashboard</button>
+  <button class="tab" onclick="go('checkin')">Check-in</button>
+  <button class="tab" onclick="go('insight')">Insight</button>
+  <button class="tab" onclick="go('reco')">Reco</button>
+  <button class="tab" onclick="go('expert')">Expert Hub</button>
+  <button class="tab" onclick="go('notes')">Notes</button>
+  <button class="tab" onclick="go('meds')">Meds</button>
+  <button class="tab" onclick="go('reports')">Reports</button>
+  <button class="tab" onclick="go('faq')">FAQ</button>
+  <button class="tab" onclick="go('doctorportal')">Doctor Portal</button>
+</div>
+
+<!-- ═══ WELCOME ═══ -->
+<div class="phone on" id="s-welcome">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr" style="justify-content:space-between;">
+    <div>
+      <div style="width:40px;height:3px;background:var(--rose);border-radius:2px;margin-bottom:24px;"></div>
+      <p class="h1 serif">Svastha</p>
+      <p style="font-size:15px;color:var(--ink2);font-style:italic;margin-top:6px;font-family:'Playfair Display',serif;">From confusion to clarity</p>
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;flex:1;padding:20px 0;">
+      <div style="width:170px;height:170px;background:linear-gradient(145deg,#F5EDE6,#EAF4F0 55%,#EAF1F8);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
+        <span style="font-size:56px;line-height:1;">🌸</span>
+        <p style="font-size:11px;color:var(--ink3);text-align:center;">Your wellness companion</p>
+      </div>
+    </div>
+    <div>
+      <div class="card sage" style="margin-bottom:16px;">
+        <p style="font-size:13px;color:#1F3A30;line-height:1.65;">A calm, private space to understand your body — track patterns, find clarity, and move forward with confidence.</p>
+      </div>
+      <button class="btn" onclick="go('condition')">Get Started</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONDITION ═══ -->
+<div class="phone" id="s-condition">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <p class="h2">What brings you here?</p>
+    <p class="sub">Your choice shapes your entire experience</p>
+    <div class="cond-grid">
+      <div class="cc" onclick="pickCond('pcod',this)">
+        <div class="cc-icon">🌺</div>
+        <div class="cc-name">PCOD / PCOS</div>
+        <div class="cc-desc">Hormonal & cycle support</div>
+      </div>
+      <div class="cc" onclick="pickCond('postpartum',this)">
+        <div class="cc-icon">🤱</div>
+        <div class="cc-name">Postpartum</div>
+        <div class="cc-desc">After birth recovery</div>
+      </div>
+      <div class="cc" onclick="pickCond('thyroid',this)">
+        <div class="cc-icon">🦋</div>
+        <div class="cc-name">Thyroid</div>
+        <div class="cc-desc">Balance & energy</div>
+      </div>
+      <div class="cc" onclick="pickCond('explore',this)">
+        <div class="cc-icon">✨</div>
+        <div class="cc-name">Explore</div>
+        <div class="cc-desc">General wellness</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn" onclick="go('role')">Continue</button>
+  </div>
+</div>
+
+<!-- ═══ ROLE ═══ -->
+<div class="phone" id="s-role">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('condition')">← Back</button>
+    <p class="h2">Who is this for?</p>
+    <p class="sub">We'll personalise everything just right</p>
+    <div class="mt20">
+      <div class="rc" onclick="pickRole('myself',this)">
+        <div class="rc-ico" style="background:var(--bg5);">🙋</div>
+        <div><div class="rc-name">Myself</div><div class="rc-sub">Track my own health journey</div></div>
+      </div>
+      <div class="rc" onclick="pickRole('daughter',this)">
+        <div class="rc-ico" style="background:var(--bg3);">👧</div>
+        <div><div class="rc-name">My Daughter</div><div class="rc-sub">Help manage her health</div></div>
+      </div>
+      <div class="rc" onclick="pickRole('mother',this)">
+        <div class="rc-ico" style="background:var(--bg4);">👩‍👧</div>
+        <div><div class="rc-name">Mother with Child Profile</div><div class="rc-sub">Manage both profiles together</div></div>
+      </div>
+      <div class="cpb" id="childBox">
+        <p>Child's name (optional)</p>
+        <input class="inp" placeholder="e.g. Priya" />
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn" onclick="go('setup')">Continue</button>
+  </div>
+</div>
+
+<!-- ═══ SETUP ═══ -->
+<div class="phone" id="s-setup">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('role')">← Back</button>
+    <p class="h2">Quick Setup</p>
+    <p class="sub">Just a few questions — no pressure at all</p>
+    <div id="setupForm" class="mt16"></div>
+    <button class="btn mt16" onclick="go('dashboard')">Go to my Dashboard →</button>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="phone" id="s-dashboard">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+      <div><p style="font-size:12px;color:var(--ink3);">Good morning,</p><p style="font-size:18px;font-weight:600;color:var(--ink);">Priya ☀️</p></div>
+      <span class="cond-badge" id="dashBadge">PCOD</span>
+    </div>
+    <div class="quote-bar">
+      <p>"Stree Shakthi is balance within"</p>
+      <small>Your daily reminder</small>
+    </div>
+    <div class="score-wrap mb12">
+      <svg class="ring-svg" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="26" fill="none" stroke="#EAF4F0" stroke-width="7"/>
+        <circle cx="32" cy="32" r="26" fill="none" stroke="#4E9B87" stroke-width="7" stroke-dasharray="116 47" stroke-linecap="round" transform="rotate(-90 32 32)"/>
+        <text x="32" y="37" text-anchor="middle" font-size="15" font-weight="600" fill="#2A2522" font-family="Nunito,sans-serif">72</text>
+      </svg>
+      <div class="score-label">
+        <p>Stability Score</p>
+        <small>Tracking well this week</small>
+        <span class="focus-chip">Focus: Sleep quality</span>
+      </div>
+    </div>
+    <button class="btn teal mb12" onclick="go('checkin')">Start Weekly Check-in</button>
+    <p class="sec-lbl">Your Space</p>
+    <div class="dash-grid">
+      <div class="dc" onclick="go('notes')"><div class="dc-ico">📋</div><div class="dc-ttl">Doctor Notes</div><div class="dc-sub">2 saved</div></div>
+      <div class="dc" onclick="go('meds')"><div class="dc-ico">💊</div><div class="dc-ttl">Tablet Reminder</div><div class="dc-sub">1 due today</div></div>
+      <div class="dc"><div class="dc-ico">👤</div><div class="dc-ttl">Profiles</div><div class="dc-sub">You + child</div></div>
+      <div class="dc" onclick="go('reco')"><div class="dc-ico">🌿</div><div class="dc-ttl">Recommendations</div><div class="dc-sub">Personalised</div></div>
+    </div>
+    <div class="dash-grid">
+      <div class="dc" onclick="go('expert')"><div class="dc-ico">🩺</div><div class="dc-ttl">Expert Guidance</div><div class="dc-sub">Doctor insights</div></div>
+      <div class="dc" onclick="go('faq')"><div class="dc-ico">❓</div><div class="dc-ttl">FAQ</div><div class="dc-sub">Quick answers</div></div>
+      <div class="dc" onclick="go('reports')"><div class="dc-ico">📁</div><div class="dc-ttl">Medical Reports</div><div class="dc-sub">Upload & view</div></div>
+      <div class="dc" onclick="go('insight')"><div class="dc-ico">💡</div><div class="dc-ttl">My Insights</div><div class="dc-sub">Weekly pattern</div></div>
+    </div>
+    <p class="sec-lbl">Monthly Trends</p>
+    <div class="trend-card">
+      <p style="font-size:12px;color:var(--ink2);">Mood & Sleep — Last 4 weeks</p>
+      <div class="bars">
+        <div class="bar" style="height:58%;background:#9FD4C4;"></div>
+        <div class="bar" style="height:76%;background:#A8C8DE;"></div>
+        <div class="bar" style="height:48%;background:#9FD4C4;"></div>
+        <div class="bar" style="height:68%;background:#A8C8DE;"></div>
+        <div class="bar" style="height:84%;background:#9FD4C4;"></div>
+        <div class="bar" style="height:62%;background:#A8C8DE;"></div>
+        <div class="bar" style="height:72%;background:#9FD4C4;"></div>
+        <div class="bar" style="height:80%;background:#A8C8DE;"></div>
+      </div>
+    </div>
+    <div class="dr-prompt">
+      <div class="dpi">🩺</div>
+      <div class="dpt">
+        <p>Consider consulting a doctor for better guidance</p>
+        <small>Based on your patterns this month</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHECK-IN ═══ -->
+<div class="phone" id="s-checkin">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Back</button>
+    <p class="h2">Weekly Check-in</p>
+    <p class="sub" id="ciSub">How have you been this week?</p>
+    <div id="ciForm" class="mt16"></div>
+    <button class="btn teal mt16" onclick="go('insight')">See My Insight →</button>
+  </div>
+</div>
+
+<!-- ═══ INSIGHT ═══ -->
+<div class="phone" id="s-insight">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Dashboard</button>
+    <p class="h2">Your Insight</p>
+    <p class="sub">Based on your weekly pattern</p>
+    <div class="insight-card mt16">
+      <p id="insightMsg">Your recent pattern suggests reduced sleep may be affecting your stability. Focus on improving sleep quality this week — even small consistent changes make a difference.</p>
+      <div class="src">✦ Personalised to your check-in</div>
+    </div>
+    <div class="expert-tip">
+      <div class="etag">Expert Tip</div>
+      <p id="expertTipInsight">Women with PCOD often notice that irregular sleep worsens hormonal imbalance. A consistent sleep schedule of 7–8 hours can visibly improve cycle regularity over 4–6 weeks.</p>
+    </div>
+    <div class="score-wrap mb12">
+      <svg class="ring-svg" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="26" fill="none" stroke="#EAF4F0" stroke-width="7"/>
+        <circle cx="32" cy="32" r="26" fill="none" stroke="#4E9B87" stroke-width="7" stroke-dasharray="116 47" stroke-linecap="round" transform="rotate(-90 32 32)"/>
+        <text x="32" y="37" text-anchor="middle" font-size="15" font-weight="600" fill="#2A2522" font-family="Nunito,sans-serif">72</text>
+      </svg>
+      <div class="score-label">
+        <p>Stability Score</p>
+        <small>Slightly lower than last week</small>
+        <span class="focus-chip">Focus: Sleep quality</span>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn" onclick="go('dashboard')">Back to Dashboard</button>
+  </div>
+</div>
+
+<!-- ═══ RECOMMENDATIONS ═══ -->
+<div class="phone" id="s-reco">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Back</button>
+    <p class="h2">Recommendations</p>
+    <p class="sub" id="recoSub">Gentle guidance just for you</p>
+    <div id="recoContent" class="mt16"></div>
+  </div>
+</div>
+
+<!-- ═══ EXPERT GUIDANCE HUB ═══ -->
+<div class="phone" id="s-expert">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Back</button>
+    <p class="h2">Expert Guidance</p>
+    <p class="sub" id="expertSub">Insights from verified doctors</p>
+    <div id="expertContent" class="mt16"></div>
+  </div>
+</div>
+
+<!-- ═══ DOCTOR NOTES ═══ -->
+<div class="phone" id="s-notes">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Back</button>
+    <p class="h2">Doctor Notes</p>
+    <p class="sub">Track your doctor's advice</p>
+    <div class="mt16">
+      <div class="note-card">
+        <p>Daily walking — 20 minutes, preferably morning</p>
+        <small>Dr. Anita Rao · 12 Mar 2025</small>
+      </div>
+      <div class="note-card">
+        <p>Reduce refined sugar. Add more fibre-rich foods and millets.</p>
+        <small>Dr. Anita Rao · 12 Mar 2025</small>
+      </div>
+    </div>
+    <p class="sec-lbl">Add a Note</p>
+    <textarea class="ntarea" placeholder="Write your doctor's advice here..."></textarea>
+    <button class="btn mt8">Save Note</button>
+  </div>
+</div>
+
+<!-- ═══ TABLET REMINDER ═══ -->
+<div class="phone" id="s-meds">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Back</button>
+    <p class="h2">Tablet Reminder</p>
+    <p class="sub">Stay consistent, one day at a time</p>
+    <div class="mt16">
+      <div class="med-row">
+        <div class="med-ico">💊</div>
+        <div class="med-info"><p>Metformin 500mg</p><small>8:00 AM · Daily</small></div>
+        <span class="badge tk">Taken</span>
+      </div>
+      <div class="med-row">
+        <div class="med-ico">💊</div>
+        <div class="med-info"><p>Inositol Supplement</p><small>9:00 PM · Daily</small></div>
+        <span class="badge ms">Missed</span>
+      </div>
+    </div>
+    <p class="sec-lbl">Add Reminder</p>
+    <input class="inp mb8" placeholder="Medicine name" />
+    <input class="inp mb8" type="time" />
+    <div style="display:flex;gap:8px;">
+      <button class="btn sm out" style="flex:1;">Daily</button>
+      <button class="btn sm out" style="flex:1;">Weekly</button>
+      <button class="btn sm out" style="flex:1;">Custom</button>
+    </div>
+    <button class="btn mt12">Add Reminder</button>
+  </div>
+</div>
+
+<!-- ═══ MEDICAL REPORTS ═══ -->
+<div class="phone" id="s-reports">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Back</button>
+    <p class="h2">Medical Reports</p>
+    <p class="sub">Upload and access your reports</p>
+    <div class="mt16">
+      <div class="rep-row">
+        <div class="fic">📄</div>
+        <div class="fi-info"><p>Blood Test — Full Panel</p><small>10 Mar 2025 · PDF</small></div>
+      </div>
+      <div class="rep-row">
+        <div class="fic">🖼️</div>
+        <div class="fi-info"><p>Pelvic Ultrasound Scan</p><small>5 Feb 2025 · Image</small></div>
+      </div>
+      <div class="rep-row">
+        <div class="fic">📄</div>
+        <div class="fi-info"><p>Hormone Profile Report</p><small>20 Jan 2025 · PDF</small></div>
+      </div>
+    </div>
+    <button class="btn mt12">+ Upload New Report</button>
+  </div>
+</div>
+
+<!-- ═══ FAQ ═══ -->
+<div class="phone" id="s-faq">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr">
+    <button class="back" onclick="go('dashboard')">← Back</button>
+    <p class="h2">Frequently Asked</p>
+    <p class="sub" id="faqSub">Calm, clear answers</p>
+    <div id="faqList" class="mt16"></div>
+  </div>
+</div>
+
+<!-- ═══ DOCTOR PORTAL ═══ -->
+<div class="phone" id="s-doctorportal">
+  <div class="sbar"><span>9:41</span><span>●●●</span></div>
+  <div class="scr" id="drPortalContent">
+    <!-- Login view -->
+    <div id="drLogin">
+      <div class="dr-login">
+        <div class="ico">🩺</div>
+        <p class="h2" style="margin-bottom:4px;">Doctor Portal</p>
+        <p style="font-size:12.5px;color:var(--ink2);">Verified medical professionals only</p>
+      </div>
+      <div class="card mb12">
+        <p style="font-size:12px;color:var(--ink2);margin-bottom:10px;font-weight:600;">Secure Login</p>
+        <input class="inp mb8" placeholder="Medical registration number" />
+        <input class="inp mb8" type="email" placeholder="Registered email" />
+        <input class="inp mb12" type="password" placeholder="Password" />
+        <button class="btn plum" onclick="drLoggedIn()">Login as Doctor</button>
+      </div>
+      <div class="card sky">
+        <p style="font-size:12px;color:var(--ink2);line-height:1.6;">Your contributions remain anonymous and generalised. No patient data is shared. Insights appear as community guidance to support women navigating diagnosis.</p>
+      </div>
+    </div>
+    <!-- Dashboard view (hidden until login) -->
+    <div id="drDash" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div><p style="font-size:12px;color:var(--ink3);">Welcome back,</p><p style="font-size:17px;font-weight:600;color:var(--ink);">Dr. Sharma 🩺</p></div>
+        <button class="btn sm out" style="width:auto;padding:7px 12px;" onclick="drLogout()">Logout</button>
+      </div>
+      <div class="card sky mb12">
+        <p style="font-size:12.5px;color:var(--blue);font-weight:600;">Your tips have helped 142 women this month</p>
+      </div>
+      <p class="sec-lbl">Contribute Content</p>
+      <div class="dr-dash-grid">
+        <div class="dr-dc" onclick="showDrForm('tip')"><div class="di">💡</div><div class="dn">Weekly Tip</div></div>
+        <div class="dr-dc" onclick="showDrForm('dos')"><div class="di">✅</div><div class="dn">Do's & Don'ts</div></div>
+        <div class="dr-dc" onclick="showDrForm('obs')"><div class="di">🔍</div><div class="dn">Case Insight</div></div>
+        <div class="dr-dc" onclick="showDrForm('foods')"><div class="di">🥗</div><div class="dn">Food & Activity</div></div>
+      </div>
+      <!-- Forms -->
+      <div id="drForm" style="display:none;"></div>
+      <p class="sec-lbl">Recent Submissions</p>
+      <div class="ew-card">
+        <span class="ew-tag tip">Weekly Tip</span>
+        <p>Encourage women with PCOD to track their cycle for 3 months before drawing conclusions about irregularity patterns.</p>
+        <div class="cond-lbl">PCOD · Submitted 2 days ago</div>
+      </div>
+      <div class="ew-card">
+        <span class="ew-tag obs">Observation</span>
+        <p>Stress is a commonly underestimated trigger for thyroid flare-ups. Mindfulness practices have shown measurable benefit.</p>
+        <div class="cond-lbl">Thyroid · Submitted 5 days ago</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let cond = 'pcod';
+const COND_LABELS = {pcod:'PCOD / PCOS', postpartum:'Postpartum', thyroid:'Thyroid', explore:'General Wellness'};
+
+// ── NAVIGATION ──
+function go(id) {
+  document.querySelectorAll('.phone').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => {
+    if(t.getAttribute('onclick') && t.getAttribute('onclick').includes("'"+id+"'")) t.classList.add('on');
+  });
+  // render dynamic screens
+  if(id==='setup') renderSetup();
+  if(id==='checkin') renderCheckin();
+  if(id==='reco') renderReco();
+  if(id==='faq') renderFaq();
+  if(id==='expert') renderExpert();
+  if(id==='insight') renderInsight();
+  if(id==='dashboard') document.getElementById('dashBadge').textContent = COND_LABELS[cond];
+  window.scrollTo({top:0});
+}
+
+// ── CONDITION PICK ──
+function pickCond(val, el) {
+  cond = val;
+  document.querySelectorAll('.cc').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+// ── ROLE PICK ──
+function pickRole(val, el) {
+  document.querySelectorAll('.rc').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('childBox').classList.toggle('vis', val==='mother');
+}
+
+// ── CHIP TOGGLE ──
+function chip(label) {
+  return `<span class="chip" onclick="this.classList.toggle('sel')">${label}</span>`;
+}
+
+// ── SLIDER ──
+function slider(label, lo='Low', hi='High') {
+  return `<div class="ci">
+    <p class="ci-lbl">${label}</p>
+    <div class="srow">
+      <span class="stxt">${lo}</span>
+      <input type="range" min="1" max="10" value="6" step="1" oninput="this.nextElementSibling.textContent=this.value"/>
+      <span class="sval">6</span>
+      <span class="stxt">${hi}</span>
+    </div>
+  </div>`;
+}
+
+// ── SETUP ──
+function renderSetup() {
+  const f = document.getElementById('setupForm');
+  const sec = (lbl, html) => `<div class="setup-sec"><p class="setup-lbl">${lbl}</p><div class="chips">${html}</div></div>`;
+  if(cond==='pcod') f.innerHTML =
+    sec('Cycle regularity', chip('Regular')+chip('Irregular')+chip('Very irregular')) +
+    sec('Symptoms you notice', chip('Mood swings')+chip('Cravings')+chip('Bloating')+chip('Acne')+chip('Fatigue')+chip('Anxiety')) +
+    sec('Consulting a doctor?', chip('Yes, regularly')+chip('Occasionally')+chip('Not yet'));
+  else if(cond==='postpartum') f.innerHTML =
+    sec('Delivery type', chip('Natural birth')+chip('C-section')) +
+    sec('Weeks since delivery', chip('0–4 weeks')+chip('1–3 months')+chip('3–6 months')+chip('6+ months')) +
+    sec('Sleep condition', chip('Mostly good')+chip('Broken sleep')+chip('Very little')) +
+    sec('Emotional state', chip('Calm')+chip('Anxious')+chip('Overwhelmed')+chip('Mixed')) +
+    sec('Feeding status', chip('Breastfeeding')+chip('Formula')+chip('Mixed'));
+  else if(cond==='thyroid') f.innerHTML =
+    sec('Thyroid type', chip('Hypothyroid')+chip('Hyperthyroid')+chip('Not sure yet')) +
+    sec('Weight changes', chip('Gaining weight')+chip('Losing weight')+chip('Stable')) +
+    sec('Energy levels', chip('High energy')+chip('Moderate')+chip('Often tired')) +
+    sec('On medication?', chip('Yes')+chip('No')+chip('Just started'));
+  else f.innerHTML =
+    sec('What to track?', chip('Energy')+chip('Mood')+chip('Sleep')+chip('Stress')+chip('Cycle')) +
+    sec('How are you feeling?', chip('Pretty good')+chip('Could be better')+chip('Struggling'));
+}
+
+// ── CHECK-IN ──
+function renderCheckin() {
+  const f = document.getElementById('ciForm');
+  document.getElementById('ciSub').textContent = {
+    pcod:'How has your week been, PCOD-wise?',
+    postpartum:'A gentle check-in for you, mama',
+    thyroid:'How has your week felt overall?',
+    explore:'How are you doing this week?'
+  }[cond]||'How are you doing this week?';
+  if(cond==='pcod') f.innerHTML =
+    slider('Mood this week','Low','Great') +
+    slider('Sleep quality','Poor','Excellent') +
+    slider('Physical activity','None','Very active') +
+    `<div class="ci"><p class="ci-lbl">Cycle changes this week?</p><div class="chips">${chip('No change')+chip('Spotting')+chip('Heavier')+chip('Lighter')}</div></div>` +
+    `<div class="ci"><p class="ci-lbl">Cravings?</p><div class="chips">${chip('Sugar')+chip('Salt')+chip('None')+chip('Everything!')}</div></div>`;
+  else if(cond==='postpartum') f.innerHTML =
+    slider('Sleep last week','Restless','Restful') +
+    slider('Emotional state','Difficult','Peaceful') +
+    slider('Physical recovery','Sore','Comfortable') +
+    slider('Energy levels','Drained','Energised') +
+    `<div class="ci"><p class="ci-lbl">Feeding going?</p><div class="chips">${chip('Smoothly')+chip('Some challenges')+chip('Very hard')}</div></div>`;
+  else if(cond==='thyroid') f.innerHTML =
+    slider('Energy today','Exhausted','Energised') +
+    slider('Mood','Low','Balanced') +
+    `<div class="ci"><p class="ci-lbl">Medication taken?</p><div class="chips">${chip('Every day')+chip('Mostly')+chip('Skipped some')}</div></div>` +
+    `<div class="ci"><p class="ci-lbl">Weight feeling?</p><div class="chips">${chip('Much less')+chip('Same')+chip('More')}</div></div>` +
+    slider('Sleep quality','Poor','Great');
+  else f.innerHTML =
+    slider('Mood','Low','Joyful') +
+    slider('Sleep','Poor','Excellent') +
+    slider('Energy','Drained','Vibrant') +
+    slider('Stress level','Very stressed','Very calm');
+}
+
+// ── INSIGHT ──
+function renderInsight() {
+  const msgs = {
+    pcod:'Your recent pattern suggests reduced sleep may be affecting your stability. Focus on improving sleep quality this week — even small consistent changes make a big difference.',
+    postpartum:'You\'re doing wonderfully. Your emotional patterns show natural adjustment. This week, prioritise rest and ask for help without hesitation — it\'s a sign of strength.',
+    thyroid:'Your energy fluctuation this week aligns with patterns common in thyroid management. Consistency in medication timing can smooth these waves significantly.',
+    explore:'Your check-in shows moderate energy with some sleep gaps. Small, consistent improvements in sleep tend to cascade positively into mood and focus.'
+  };
+  const tips = {
+    pcod:'Women with PCOD often notice that irregular sleep worsens hormonal imbalance. A consistent sleep schedule of 7–8 hours can visibly improve cycle regularity over 4–6 weeks.',
+    postpartum:'Postpartum recovery is deeply individual. Most women notice a marked emotional shift between weeks 6–12. Gentle movement and daylight exposure support this transition.',
+    thyroid:'Thyroid function is sensitive to stress hormones. Even 10 minutes of daily calm — walking, breathing, or journalling — can meaningfully support thyroid stability over time.',
+    explore:'Tracking patterns for just 4 weeks often reveals surprising connections between sleep, food, and mood. Awareness itself is the first and most powerful step.'
+  };
+  document.getElementById('insightMsg').textContent = msgs[cond]||msgs.explore;
+  document.getElementById('expertTipInsight').textContent = tips[cond]||tips.explore;
+}
+
+// ── RECOMMENDATIONS ──
+const recoData = {
+  pcod:{
+    food:['Cinnamon water first thing in the morning','Replace white rice with millets or quinoa','Spearmint tea — calming for hormones','Add flaxseeds to your smoothies or curd'],
+    exercise:['30-min morning walk, daily','Seated yoga twists gently support cycle health','Avoid high-intensity exercise during cycle days','Light strength training 2× a week'],
+    meditation:['5-min body scan before sleep','Box breathing (4-4-4-4) for anxious moments','Weekly cycle emotion journalling']
+  },
+  postpartum:{
+    food:['Iron-rich foods: lentils, spinach, beetroot','8+ glasses of water throughout the day','Oats and fenugreek for milk supply','Warm soups and dals for recovery nourishment'],
+    exercise:['Gentle walks from week 2–3 onwards','Pelvic floor exercises daily, even lying down','Slow deep breathing during feeding sessions','Postnatal yoga at 6 weeks — when ready'],
+    meditation:['3-min gratitude moment each morning','Slow breathing when overwhelmed mid-day','Remember: asking for help is strength']
+  },
+  thyroid:{
+    food:['2 Brazil nuts daily — rich in selenium','Avoid raw cruciferous veggies at night','Iodised salt in all cooked meals','Limit excess soy, especially if on medication'],
+    exercise:['20-min consistent walk at same time daily','Swimming or gentle cycling — low impact','Rest on low-energy days without guilt'],
+    meditation:['10 minutes of morning sunlight — grounding','Gratitude journalling lowers cortisol levels','4-7-8 breathing technique before medication']
+  },
+  explore:{
+    food:['Seasonal fruits in the morning','Warm water before each meal','Gradually reduce packaged snacks'],
+    exercise:['20-min walk daily','5-min stretch before bedtime','Dance or any movement that brings joy'],
+    meditation:['Set a morning intention (2 min)','3 things to be grateful for each evening','One afternoon per week without screens']
+  }
+};
+function renderReco() {
+  document.getElementById('recoSub').textContent = 'Gentle guidance for ' + COND_LABELS[cond];
+  const d = recoData[cond]||recoData.explore;
+  const mkItems = (arr, col) => arr.map(t=>`<div class="reco-item"><div class="rdot" style="background:${col};"></div>${t}</div>`).join('');
+  document.getElementById('recoContent').innerHTML = `
+    <div class="reco-sec"><div class="reco-hdr"><span>🥗</span><span>Nourishment</span></div>${mkItems(d.food,'#4E9B87')}</div>
+    <div class="reco-sec"><div class="reco-hdr"><span>🚶</span><span>Movement</span></div>${mkItems(d.exercise,'#5588A8')}</div>
+    <div class="reco-sec"><div class="reco-hdr"><span>🧘</span><span>Mindfulness</span></div>${mkItems(d.meditation,'#7A6895')}</div>`;
+}
+
+// ── EXPERT HUB ──
+const expertData = {
+  pcod:{
+    tips:['Track your cycle consistently for 3 months before drawing conclusions — patterns often reveal themselves.','Seed cycling (flaxseeds days 1–14, pumpkin seeds days 15–28) may support hormonal balance naturally.'],
+    dos:['Prioritise 7–8 hours of sleep; avoid irregular schedules','Stay hydrated; insulin sensitivity improves with consistent hydration','Move daily — even light walking counts'],
+    donts:['Avoid skipping meals, especially breakfast','Avoid crash diets — they worsen hormonal disruption','Limit high-sugar, high-GI foods'],
+    obs:['Stress is an underestimated trigger. Many women report cycle disruption following high-stress periods.','Gut health is deeply connected to hormonal balance in PCOD. Probiotics may help.']
+  },
+  postpartum:{
+    tips:['The "baby blues" peak at day 3–5 and typically resolve within 2 weeks. Persistent low mood beyond 2 weeks warrants a gentle conversation with a doctor.','Sleep deprivation mimics depressive symptoms — sleep when baby sleeps, without guilt.'],
+    dos:['Accept help from family without hesitation','Eat warm, nourishing meals regularly — skipping meals worsens exhaustion','Communicate openly with your partner about what you need'],
+    donts:['Avoid comparing your recovery to others','Don\'t dismiss persistent sadness or anxiety as "just hormones"','Avoid social media comparisons, especially in the first 3 months'],
+    obs:['Women who feel supported by their partner report faster emotional recovery.','Skin-to-skin contact — even for short periods — supports hormonal bonding in new mothers.']
+  },
+  thyroid:{
+    tips:['Take thyroid medication at the same time each morning, on an empty stomach, for consistent absorption.','Retest TSH levels every 6–12 months, or after any significant life change.'],
+    dos:['Maintain consistent sleep and meal timing','Share your thyroid history before any new medication is prescribed','Keep a simple symptom log — it helps your doctor see patterns'],
+    donts:['Avoid taking thyroid medication with calcium-rich foods or supplements (wait 4 hours)','Don\'t self-adjust medication doses','Avoid excessive iodine supplementation without medical advice'],
+    obs:['Thyroid symptoms often worsen with emotional stress. Mind-body practices show measurable benefit in studies.','Weight changes with thyroid are largely medication and lifestyle driven — not "willpower" based.']
+  },
+  explore:{
+    tips:['Track 3 things: sleep, mood, and energy — for 4 weeks. Patterns emerge that are genuinely surprising.','Consistency in small habits outperforms intensive short-term efforts in health maintenance.'],
+    dos:['Annual check — thyroid, blood sugar, iron, vitamin D','Move your body in a way you enjoy, not dread','Stay connected to people who support you'],
+    donts:['Avoid self-diagnosing from symptoms alone','Don\'t wait until you\'re exhausted to ask for help','Avoid comparing your body or journey to others'],
+    obs:['Most women who feel "off" without clear diagnosis are dealing with sleep debt, vitamin deficiency, or chronic low-grade stress — all addressable.','Listening to your body\'s subtle signals is a skill, and it improves with practice.']
+  }
+};
+function renderExpert() {
+  document.getElementById('expertSub').textContent = 'Curated for ' + COND_LABELS[cond];
+  const d = expertData[cond]||expertData.explore;
+  const mkCards = (arr, tag, cls) => arr.map(t=>`<div class="ew-card"><span class="ew-tag ${cls}">${tag}</span><p>${t}</p></div>`).join('');
+  document.getElementById('expertContent').innerHTML = `
+    <div class="expert-section"><p class="es-ttl">Weekly Tips</p>${mkCards(d.tips,'Tip','tip')}</div>
+    <div class="expert-section"><p class="es-ttl">Do's</p>${d.dos.map(t=>`<div class="ew-card"><span class="ew-tag dos">Do</span><p>${t}</p></div>`).join('')}</div>
+    <div class="expert-section"><p class="es-ttl">Don'ts</p>${d.donts.map(t=>`<div class="ew-card"><span class="ew-tag obs">Avoid</span><p>${t}</p></div>`).join('')}</div>
+    <div class="expert-section"><p class="es-ttl">Pattern Observations</p>${mkCards(d.obs,'Observation','obs')}</div>`;
+}
+
+// ── FAQ ──
+const faqData = {
+  pcod:[
+    {q:'Is PCOD curable?',a:'PCOD responds very well to lifestyle changes. Many women see their symptoms significantly reduce over time. It\'s not something to fear — it\'s something to understand and work with.'},
+    {q:'Why does weight gain happen with PCOD?',a:'Hormonal imbalance affects how your body uses insulin, which can contribute to weight changes. Dietary adjustments and regular movement help more than restrictive dieting.'},
+    {q:'Will my cycle ever become regular?',a:'For many, yes. Consistent sleep, reduced stress, and balanced eating can help regulate cycles over a few months. Tracking is a great first step.'},
+    {q:'Can I get pregnant with PCOD?',a:'Most women with PCOD do conceive — sometimes with a little support from a specialist. It\'s more common than you might think, and options exist.'}
+  ],
+  postpartum:[
+    {q:'Are mood swings normal after delivery?',a:'Absolutely. Hormones shift dramatically after birth. Most emotional changes settle within a few weeks. If they feel overwhelming or persist, a gentle conversation with your doctor is always a good idea.'},
+    {q:'How long does recovery take?',a:'Every body is different. Most women feel significantly better by 6–8 weeks. C-section recovery may take a little longer. Be as kind to yourself as you would be to a dear friend.'},
+    {q:'Is it normal to feel disconnected from my baby?',a:'Yes, especially in the early weeks. Sleep deprivation and hormonal shifts affect bonding. It almost always improves with time, rest, and support.'},
+    {q:'When can I start exercising again?',a:'Gentle walks can begin within days if you feel up to it. More structured exercise is typically safe after 6 weeks — your doctor can guide you based on your recovery.'}
+  ],
+  thyroid:[
+    {q:'Do I need thyroid medication lifelong?',a:'Many people with hypothyroidism do take medication long-term — and that\'s perfectly okay. Modern thyroid medication is safe, well-tolerated, and gives many people their energy back.'},
+    {q:'Why am I always tired?',a:'Fatigue is one of the most common thyroid symptoms. Once your levels are well-managed with the right dose, energy usually returns. Consistent sleep also makes a real difference.'},
+    {q:'Can what I eat help my thyroid?',a:'Diet supports your thyroid but works alongside medication, not instead of it. Selenium-rich foods, iodised salt, and stress reduction all contribute positively.'},
+    {q:'Why does weight change with thyroid conditions?',a:'Thyroid hormones regulate metabolism. Imbalance can cause weight changes that feel frustrating. Once levels stabilise, weight often does too.'}
+  ],
+  explore:[
+    {q:'Where do I start with women\'s health?',a:'Start by observing — track your energy, mood, and sleep for 4 weeks. Patterns reveal a lot. Small, consistent changes matter far more than big dramatic ones.'},
+    {q:'How often should I see a doctor?',a:'A yearly general check is a good baseline. If something feels persistently off, sooner is always better than waiting.'},
+    {q:'Is stress really that serious for health?',a:'Yes — chronic low-grade stress quietly disrupts hormones, sleep, and immunity over time. Addressing it directly is one of the most impactful health actions you can take.'}
+  ]
+};
+function renderFaq() {
+  const d = faqData[cond]||faqData.explore;
+  document.getElementById('faqSub').textContent = 'For ' + COND_LABELS[cond];
+  document.getElementById('faqList').innerHTML = d.map(item=>`
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">${item.q}<span class="faq-arr">+</span></div>
+      <div class="faq-a">${item.a}</div>
+    </div>`).join('');
+}
+
+// ── DOCTOR PORTAL ──
+function drLoggedIn() {
+  document.getElementById('drLogin').style.display = 'none';
+  document.getElementById('drDash').style.display = 'block';
+}
+function drLogout() {
+  document.getElementById('drLogin').style.display = 'block';
+  document.getElementById('drDash').style.display = 'none';
+}
+const drForms = {
+  tip:`<div class="dr-form-card"><p class="df-ttl">Add Weekly Tip</p>
+    <select class="sel-inp"><option>Select condition</option><option>PCOD / PCOS</option><option>Postpartum</option><option>Thyroid</option><option>General</option></select>
+    <textarea class="ntarea mb8" placeholder="Write a generalised weekly tip for women managing this condition..."></textarea>
+    <button class="btn teal sm">Submit Tip</button></div>`,
+  dos:`<div class="dr-form-card"><p class="df-ttl">Add Do's & Don'ts</p>
+    <select class="sel-inp"><option>Select condition</option><option>PCOD / PCOS</option><option>Postpartum</option><option>Thyroid</option></select>
+    <textarea class="ntarea mb8" placeholder="Do: ..."></textarea>
+    <textarea class="ntarea mb8" placeholder="Don't: ..."></textarea>
+    <button class="btn teal sm">Submit</button></div>`,
+  obs:`<div class="dr-form-card"><p class="df-ttl">Add Case-Based Insight</p>
+    <select class="sel-inp"><option>Select condition</option><option>PCOD / PCOS</option><option>Postpartum</option><option>Thyroid</option></select>
+    <input class="inp mb8" placeholder="Common trigger (generalised)"/>
+    <input class="inp mb8" placeholder="Factor that helps (generalised)"/>
+    <textarea class="ntarea mb8" placeholder="Key observation — anonymised and generalised only..."></textarea>
+    <button class="btn teal sm">Submit Insight</button></div>`,
+  foods:`<div class="dr-form-card"><p class="df-ttl">Food & Activity Guidance</p>
+    <select class="sel-inp"><option>Select condition</option><option>PCOD / PCOS</option><option>Postpartum</option><option>Thyroid</option></select>
+    <input class="inp mb8" placeholder="Foods to include (comma-separated)"/>
+    <input class="inp mb8" placeholder="Foods to avoid (comma-separated)"/>
+    <input class="inp mb8" placeholder="Suggested activity"/>
+    <button class="btn teal sm">Submit Guidance</button></div>`
+};
+function showDrForm(type) {
+  const f = document.getElementById('drForm');
+  f.style.display = 'block';
+  f.innerHTML = drForms[type]||'';
+}
+
+// ── INIT ──
+renderReco(); renderFaq(); renderExpert(); renderInsight();
+</script>
+</body>
+</html>
